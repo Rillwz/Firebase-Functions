@@ -34,3 +34,35 @@ header a:hover{
     background: #ffe100;
     color: black;
 }
+
+.content{
+    max-width: 800px;
+    margin: 40px auto 0;
+}
+
+.request-list li{
+    padding: 20px;
+    margin: 10px auto;
+    list-style-type: none;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+}
+
+.request-list .votes{
+    position: relative;
+    top: -5px;
+    z-index: 0;
+}
+
+.request-list .upvote{
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.request-list .upvote:active{
+    color: black;
+    background: #ffe100;
+}
