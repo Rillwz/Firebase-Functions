@@ -1,5 +1,3 @@
-const { sayHello } = require("../../functions");
-
 const requestModal = document.querySelector(".new-request");
 const requestLink = document.querySelector(".add-request");
 
