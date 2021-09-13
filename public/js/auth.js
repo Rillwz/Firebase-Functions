@@ -22,8 +22,7 @@ registerForm.addEventListener("submit", (e) => {
 
   console.log(email, password);
 
-  firebase
-    .auth()
+  auth
     .createUserWithEmailAndPassword(email, password)
     .then((user) => {
       console.log("registered", user);
@@ -31,5 +30,25 @@ registerForm.addEventListener("submit", (e) => {
     })
     .catch((error) => {
       registerForm.querySelector(".error").textContent = error.message;
+    });
+});
+
+// login form
+loginForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const email = loginForm.email.value;
+  const password = loginForm.password.value;
+
+  console.log(email, password);
+
+  auth
+    .signInWithEmailAndPassword(email, password)
+    .then((user) => {
+      console.log("logged in", user);
+      loginForm.reset();
+    })
+    .catch((error) => {
+      loginForm.querySelector(".error").textContent = error.message;
     });
 });
