@@ -52,3 +52,19 @@ loginForm.addEventListener("submit", (e) => {
       loginForm.querySelector(".error").textContent = error.message;
     });
 });
+
+// sign out
+signOut.addEventListener("click", () => {
+  auth.signOut().then(() => console.log("signed out"));
+});
+
+// auth listener
+firebase.auth().onAuthStateChanged((user) => {
+  if (user) {
+    authWrapper.classList.remove("open");
+    authModals.forEach((modal) => modal.classList.remove("active"));
+  } else {
+    authWrapper.classList.add("open");
+    authModals[0].classList.add("active");
+  }
+});
