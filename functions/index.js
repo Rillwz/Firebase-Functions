@@ -6,6 +6,6 @@ exports.newUserSignup = functions.auth.user().onCreate((user) => {
 });
 
 // auth trigger ( new user signup )
-exports.newUserSignup = functions.auth.user().onDelete((user) => {
+exports.userDeleted = functions.auth.user().onDelete((user) => {
   console.log("user deleted", user.email, user.uid);
 });
