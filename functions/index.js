@@ -19,3 +19,13 @@ exports.userDeleted = functions.auth.user().onDelete((user) => {
   const doc = admin.firestore().collection("users").doc(user.uid);
   return doc.delete();
 });
+
+// HTTP callable function ( adding a request )
+exports.addRequest = functions.https.onCall((data, context) => {
+  if (!context.auth) {
+    throw new functions.https.HttpsError(
+      "unauthenticated",
+      "only authenticated users can add requests"
+    );
+  }
+});
