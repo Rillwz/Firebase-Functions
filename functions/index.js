@@ -21,6 +21,7 @@ exports.userDeleted = functions.auth.user().onDelete((user) => {
 });
 
 // HTTP callable function ( adding a request )
+// Promise return to users
 exports.addRequest = functions.https.onCall((data, context) => {
   if (!context.auth) {
     throw new functions.https.HttpsError(
@@ -34,4 +35,8 @@ exports.addRequest = functions.https.onCall((data, context) => {
       "request must be no more than 30 characters long"
     );
   }
+  return admin.firestore().collection("request").add({
+    text: data.text,
+    upvotes: 0,
+  });
 });
