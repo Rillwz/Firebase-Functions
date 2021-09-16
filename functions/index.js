@@ -28,4 +28,10 @@ exports.addRequest = functions.https.onCall((data, context) => {
       "only authenticated users can add requests"
     );
   }
+  if (data.text.lenght > 30) {
+    throw new functions.https.HttpsError(
+      "invalid-argument",
+      "request must be no more than 30 characters long"
+    );
+  }
 });
