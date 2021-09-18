@@ -3,6 +3,14 @@ var app = new Vue({
   data: {
     requests: [],
   },
+  method: {
+    upvoteRequest(id) {
+      const upvote = firebase.functions().httpCallable("upvote");
+      upvote({ id }).catch((error) => {
+        showNotification(error.message);
+      });
+    },
+  },
   mounted() {
     const ref = firebase.firestore().collection("request");
 
