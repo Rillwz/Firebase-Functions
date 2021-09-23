@@ -52,13 +52,13 @@ exports.upvote = functions.https.onCall((data, context) => {
 
   //get refs for user docs & request doc
   const user = admin.firestore().collection("users").doc(context.auth.uid);
-  const request = admin.firestore().collection("request").doc(data.id);
+  const request = admin.firestore().collection("requests").doc(data.id);
 
   return user.get().then((doc) => {
     // check user hasn't already upvoted the reuqest
     if (doc.data().upvoteOn.includes(data.id)) {
       throw new functions.https.HttpsError(
-        "unauthenticated",
+        "failed-precondition",
         "You can only upvote something once"
       );
     }
@@ -66,12 +66,12 @@ exports.upvote = functions.https.onCall((data, context) => {
     // update user array
     return user
       .update({
-        upvotedOn: [...doc.data().upvoteOn, data.id],
+        upvotedOn: [...doc.data().upvotedOn, data.id],
       })
       .then(() => {
         // update votes on the request
         return request.update({
-          upvotes: admin.firestore.FieldValue.increment(1),
+          upvotes: admin.firestore().FieldValue.increment(1),
         });
       });
   });
