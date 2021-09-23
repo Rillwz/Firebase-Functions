@@ -3,9 +3,9 @@ var app = new Vue({
   data: {
     requests: [],
   },
-  method: {
+  methods: {
     upvoteRequest(id) {
-      const upvote = firebase.functions().httpCallable("upvote");
+      const upvote = firebase.functions().httpsCallable("upvote");
       upvote({ id }).catch((error) => {
         showNotification(error.message);
       });

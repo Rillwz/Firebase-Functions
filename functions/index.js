@@ -50,32 +50,29 @@ exports.upvote = functions.https.onCall((data, context) => {
     );
   }
 
-    //get refs for user docs & request doc
-    const user = admin.firestore().collection("users").doc(context.auth.uid);
-    const request = adimn.firestore().collection("request").doc(data.id);
+  //get refs for user docs & request doc
+  const user = admin.firestore().collection("users").doc(context.auth.uid);
+  const request = admin.firestore().collection("request").doc(data.id);
 
-    return user.get().then((doc) => {
-      // check user hasn't already upvoted the reuqest
-      if (doc.data().upvoteOn.includes(data.id)) {
-        if (!context.auth) {
-          throw new functions.https.HttpsError(
-            "unauthenticated",
-            "You can only upvote something once"
-          );
-        }
+  return user.get().then((doc) => {
+    // check user hasn't already upvoted the reuqest
+    if (doc.data().upvoteOn.includes(data.id)) {
+      throw new functions.https.HttpsError(
+        "unauthenticated",
+        "You can only upvote something once"
+      );
+    }
 
-        // update user array
-        return user
-          .update({
-            upvotedOn: [...doc.data().upvoteOn, data.id],
-          })
-          .then(() => {
-            // update votes on the request
-            return request.update({
-              upvotes: admin.firestore.FieldValue.increment(1),
-            });
-          });
-      }
-    });
-  }
+    // update user array
+    return user
+      .update({
+        upvotedOn: [...doc.data().upvoteOn, data.id],
+      })
+      .then(() => {
+        // update votes on the request
+        return request.update({
+          upvotes: admin.firestore.FieldValue.increment(1),
+        });
+      });
+  });
 });
