@@ -48,6 +48,7 @@ exports.upvote = functions.https.onCall((data, context) => {
       "unauthenticated",
       "only authenticated users can add requests"
     );
+  }
 
     //get refs for user docs & request doc
     const user = admin.firestore().collection("users").doc(context.auth.uid);
