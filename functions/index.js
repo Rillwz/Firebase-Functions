@@ -46,7 +46,7 @@ exports.upvote = functions.https.onCall(async (data, context) => {
       "only authenticated users can vote up requests"
     );
   }
-  
+
   // get refs for user doc & request doc
   const user = admin.firestore().collection("users").doc(context.auth.uid);
   const request = admin.firestore().collection("requests").doc(data.id);
@@ -64,9 +64,31 @@ exports.upvote = functions.https.onCall(async (data, context) => {
   await user.update({
     upvotedOn: [...doc.data().upvotedOn, data.id],
   });
-  
+
   // update the votes on the request
   return request.update({
     upvotes: admin.firestore.FieldValue.increment(1),
   });
 });
+
+// firestore trigger for tracking activity
+exports.logActivities = functions.firestore
+  .document("/{collection}/{id}")
+  .onCreate((snap, context) => {
+    console.log(snap.data());
+
+    const collection = context.params.collection;
+    const id = context.params.id;
+
+    const activities = admin.firestore().collection("activities");
+
+    if (collection === "request") {
+      return activities.add({ text: "a new tutorial request was added" });
+    }
+
+    if (collection === "users") {
+      return activities.add({ text: "a new user request was added" });
+    }
+
+    return null;
+  });
