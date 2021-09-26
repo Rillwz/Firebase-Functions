@@ -5,6 +5,7 @@ var app = new Vue({
   },
   methods: {
     upvoteRequest(id) {
+      console.log(id);
       const upvote = firebase.functions().httpsCallable("upvote");
       upvote({ id }).catch((error) => {
         showNotification(error.message);
@@ -12,7 +13,7 @@ var app = new Vue({
     },
   },
   mounted() {
-    const ref = firebase.firestore().collection("request");
+    const ref = firebase.firestore().collection("requests");
 
     ref.onSnapshot((snapshoot) => {
       let request = [];
