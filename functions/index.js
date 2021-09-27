@@ -82,7 +82,7 @@ exports.logActivities = functions.firestore
 
     const activities = admin.firestore().collection("activities");
 
-    if (collection === "request") {
+    if (collection === "requests") {
       return activities.add({ text: "a new tutorial request was added" });
     }
 
